@@ -1,0 +1,13 @@
+[package]
+name = "rust-k2hash"
+version = "0.0.1"
+authors = ["Ryo Okubo <syucream1031@gmail.com>"]
+license = "MIT"
+description = "Rust binding for k2hash"
+
+[dependencies.k2hash-sys]
+path = "k2hash-sys"
+version = "0.0.1"
+
+[dependencies]
+libc = "0.2.18"

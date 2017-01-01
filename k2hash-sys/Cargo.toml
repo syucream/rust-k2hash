@@ -1,0 +1,9 @@
+[package]
+name = "k2hash-sys"
+version = "0.0.1"
+authors = ["Ryo Okubo <syucream1031@gmail.com>"]
+license = "MIT"
+description = "Low Level I/F for k2hash"
+
+[dependencies]
+libc = "0.2.18"
