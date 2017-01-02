@@ -4,6 +4,11 @@ extern crate libc;
 use std::ffi::CString;
 use libc::{c_int, size_t};
 
+pub const DEFAULT_MASK_BITCOUNT: c_int = k2hash_sys::DEFAULT_MASK_BITCOUNT;
+pub const DEFAULT_COLLISION_MASK_BITCOUNT: c_int = k2hash_sys::DEFAULT_COLLISION_MASK_BITCOUNT;
+pub const DEFAULT_MAX_ELEMENT_CNT: c_int = k2hash_sys::DEFAULT_MAX_ELEMENT_CNT;
+pub const MIN_PAGE_SIZE: size_t = k2hash_sys::MIN_PAGE_SIZE;
+
 pub struct K2Hash {
     handler: k2hash_sys::k2h_h,
 }
@@ -41,6 +46,29 @@ impl K2Hash {
         }
     }
 
+    /// Get a key/value.
+    pub fn get(&self, key: String) -> Result<String, std::io::Error>
+    {
+        if self.handler == 0 {
+            return Err(std::io::Error::last_os_error())
+        }
+
+        unsafe {
+            let ckey = CString::new(key).unwrap();
+            let pval = k2hash_sys::k2h_get_str_direct_value(
+                self.handler,
+                ckey.as_ptr() as *const u8);
+
+            if pval.is_null() {
+                Err(std::io::Error::last_os_error())
+            } else {
+                let cval = CString::from_raw(pval as *mut i8);
+                let val = cval.into_string().unwrap();
+                Ok(val)
+            }
+        }
+    }
+
     /// Set a key/value.
     pub fn set(&self, key: String, value: String) -> Result<(), std::io::Error>
     {
@@ -48,12 +76,9 @@ impl K2Hash {
             return Err(std::io::Error::last_os_error())
         }
 
-        println!("{}", self.handler);
-        println!("{}", key);
-        println!("{}", value);
+        let keylen = key.len();
+        let vallen = value.len();
         unsafe {
-            let keylen = key.len();
-            let vallen = value.len();
             let ckey = CString::new(key).unwrap();
             let cval = CString::new(value).unwrap();
 

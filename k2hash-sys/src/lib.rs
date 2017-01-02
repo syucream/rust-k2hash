@@ -3,6 +3,11 @@ extern crate libc;
 pub type k2h_h = ::libc::uint64_t;
 use libc::{c_int, c_char, c_uchar, size_t};
 
+pub const DEFAULT_MASK_BITCOUNT: c_int = 8;
+pub const DEFAULT_COLLISION_MASK_BITCOUNT: c_int = 4;
+pub const DEFAULT_MAX_ELEMENT_CNT: c_int = 32;
+pub const MIN_PAGE_SIZE: size_t = 128;
+
 #[link(name = "k2hash")]
 extern "C" {
     pub fn k2h_open(filepath: *const c_char, readonly: bool, removefile: bool, 
