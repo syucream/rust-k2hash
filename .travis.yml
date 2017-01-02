@@ -1,3 +1,13 @@
 language: rust
 rust:
   - beta
+before_install:
+  - sudo apt-get -qq update
+install:
+  - sudo apt-get -qq install autoconf automake autotools-dev libtool pkg-config libssl-dev
+before_script:
+  - git clone --depth 1 https://github.com/yahoojapan/k2hash.git
+  - cd k2hash/ && git submodule update --init --recursive && cd ../
+  - cd k2hash/fullock/ && ./autogen.sh && ./configure && make && sudo make install && cd ../../
+  - cd k2hash/ && ./autogen.sh && ./configure && sudo make install && cd ../
+  - sudo ldconfig
