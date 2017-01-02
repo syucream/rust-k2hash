@@ -12,9 +12,9 @@ fn main() {
     let k2hash = K2Hash::new(path, false, false, true,
                              maskBitCnt, collisionMaskBitCnt, maxElementCnt, pageSize).unwrap();
 
-    k2hash.set("key".to_string(), "value".to_string());
+    k2hash.set_str("key".to_string(), "value".to_string());
 
-    println!("{}", k2hash.get("key".to_string()).unwrap());
+    println!("{}", k2hash.get_str("key".to_string()).unwrap());
 
     println!("k2hash test finished!\n");
 }

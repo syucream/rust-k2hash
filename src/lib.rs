@@ -46,8 +46,8 @@ impl K2Hash {
         }
     }
 
-    /// Get a key/value.
-    pub fn get(&self, key: String) -> Result<String, std::io::Error>
+    /// Get a key and str value.
+    pub fn get_str(&self, key: String) -> Result<String, std::io::Error>
     {
         if self.handler == 0 {
             return Err(std::io::Error::last_os_error())
@@ -69,25 +69,21 @@ impl K2Hash {
         }
     }
 
-    /// Set a key/value.
-    pub fn set(&self, key: String, value: String) -> Result<(), std::io::Error>
+    /// Set a key and str value.
+    pub fn set_str(&self, key: String, value: String) -> Result<(), std::io::Error>
     {
         if self.handler == 0 {
             return Err(std::io::Error::last_os_error())
         }
 
-        let keylen = key.len();
-        let vallen = value.len();
         unsafe {
             let ckey = CString::new(key).unwrap();
             let cval = CString::new(value).unwrap();
 
-            let success = k2hash_sys::k2h_set_value(
+            let success = k2hash_sys::k2h_set_str_value(
                 self.handler,
-                ckey.as_ptr() as *const u8,
-                keylen,
-                cval.as_ptr() as *const u8,
-                vallen);
+                ckey.as_ptr(),
+                cval.as_ptr());
 
             if !success {
                 Err(std::io::Error::last_os_error())

@@ -23,4 +23,6 @@ extern "C" {
 
     pub fn k2h_set_value(handle: k2h_h, pkey: *const c_uchar, keylength: size_t,
 						 pval: *const c_uchar, vallength: size_t) -> bool;
+
+    pub fn k2h_set_str_value(handle: k2h_h, pkey: *const c_char, pval: *const c_char) -> bool;
 }
