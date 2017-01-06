@@ -55,9 +55,7 @@ impl K2Hash {
 
         unsafe {
             let ckey = CString::new(key).unwrap();
-            let pval = k2hash_sys::k2h_get_str_direct_value(
-                self.handler,
-                ckey.as_ptr() as *const u8);
+            let pval = k2hash_sys::k2h_get_str_direct_value(self.handler, ckey.as_ptr());
 
             if pval.is_null() {
                 Err(std::io::Error::last_os_error())
@@ -80,15 +78,12 @@ impl K2Hash {
             let ckey = CString::new(key).unwrap();
             let cval = CString::new(value).unwrap();
 
-            let success = k2hash_sys::k2h_set_str_value(
-                self.handler,
-                ckey.as_ptr(),
-                cval.as_ptr());
+            let success = k2hash_sys::k2h_set_str_value(self.handler, ckey.as_ptr(), cval.as_ptr());
 
-            if !success {
-                Err(std::io::Error::last_os_error())
-            } else {
+            if success {
                 Ok(())
+            } else {
+                Err(std::io::Error::last_os_error())
             }
         }
     }

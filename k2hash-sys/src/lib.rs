@@ -1,8 +1,9 @@
+#[allow(non_camel_case_types)]
+
 extern crate libc;
+use libc::{c_int, c_char, c_uchar, size_t, uint64_t};
 
-pub type k2h_h = ::libc::uint64_t;
-use libc::{c_int, c_char, c_uchar, size_t};
-
+pub type k2h_h = uint64_t;
 pub const DEFAULT_MASK_BITCOUNT: c_int = 8;
 pub const DEFAULT_COLLISION_MASK_BITCOUNT: c_int = 4;
 pub const DEFAULT_MAX_ELEMENT_CNT: c_int = 32;

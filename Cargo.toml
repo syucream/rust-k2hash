@@ -1,5 +1,5 @@
 [package]
-name = "rust-k2hash"
+name = "k2hash"
 version = "0.0.1"
 authors = ["Ryo Okubo <syucream1031@gmail.com>"]
 license = "MIT"

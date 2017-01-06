@@ -1,6 +1,6 @@
 language: rust
 rust:
-  - beta
+  - stable
 before_install:
   - sudo apt-get -qq update
 install:
@@ -11,3 +11,6 @@ before_script:
   - cd k2hash/fullock/ && ./autogen.sh && ./configure && make && sudo make install && cd ../../
   - cd k2hash/ && ./autogen.sh && ./configure && sudo make install && cd ../
   - sudo ldconfig
+script:
+  - cd k2hash-sys/ && cargo test && cd ../
+  - cargo test
